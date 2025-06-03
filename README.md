@@ -109,8 +109,12 @@
 
 - Configure your env vars copying `.env.example` to `.env` 
 - You should have docker installed on your machine, and just run `docker-compose up --build`
-- Execute the command `docker exec -it stefanini_php bash -c "php artisan migrate --force && php artisan optimize:clear && php artisan route:clear && php artisan cache:clear"`
+- Execute the command `docker exec -it stefanini_php bash -c "php artisan migrate --force && php artisan key:generate && php artisan optimize:clear && php artisan route:clear && php artisan cache:clear"`
 - To run tests execute `docker exec -it stefanini_php bash -c "php artisan test --coverage"` (TESTS CLEANS DATABASE AND CACHE, DO NOT RUN IN PRODUCTION)
+
+## OBS
+- 🇧🇷 Lembre de adicionar as chaves do Sentry e do OpenWeatherMaps corretamente no `.env`
+- 🇺🇸 Remember to add Sentry and OpenWeatherMaps keys properly on `.env`
 
 ## ROADMAP
 - LARAVEL PROJECT
