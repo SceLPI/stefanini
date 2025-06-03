@@ -1,7 +1,5 @@
 FROM php:8.4-fpm
 
-EXPOSE 80
-
 WORKDIR /var/www/html
 COPY . /var/www/html
 
@@ -21,13 +19,16 @@ RUN apt update && \
     iputils-ping \
     net-tools \
     nano \
-    bash
+    bash \
+    libpq-dev \
+    nginx
 
 RUN pecl install redis && \
     pecl install xdebug && \
     docker-php-ext-install mysqli pdo_mysql && \
     docker-php-ext-enable redis && \
-    docker-php-ext-enable xdebug
+    docker-php-ext-enable xdebug && \
+    docker-php-ext-install pdo pdo_pgsql
 
 RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" && \
     php composer-setup.php && \
@@ -38,6 +39,9 @@ RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" &&
 RUN chown -R www-data:www-data /var/www/html
 
 COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
+
+COPY ./docker/nginx/default.conf /etc/nginx/conf.d/default.conf
+
 RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 
 ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]
