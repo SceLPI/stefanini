@@ -25,29 +25,29 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Set up Docker Compose
-        run: docker-compose -f docker-compose.yml up -d --build
+        run: docker compose -f docker-compose.yml up -d --build
 
       - name: Wait for PHP container
         run: |
           echo "Aguardando o container stefanini_php estar pronto..."
           for i in {1..40}; do
-            docker-compose exec -T stefanini_php php -v && break
+            docker compose exec -T stefanini_php php -v && break
             echo "stefanini_php ainda não está pronto, aguardando 5s..."
             sleep 5
           done
 
       - name: Composer Install
-        run: docker-compose exec -T stefanini_php composer install --no-interaction
+        run: docker compose exec -T stefanini_php composer install --no-interaction
 
       - name: Copy .env file
-        run: docker-compose exec -T stefanini_php cp .env.example .env
+        run: docker compose exec -T stefanini_php cp .env.example .env
 
       - name: Run Migrations
-        run: docker-compose exec -T stefanini_php php artisan migrate --force || true
+        run: docker compose exec -T stefanini_php php artisan migrate --force || true
 
       - name: Run Tests
-        run: docker-compose exec -T stefanini_php php artisan test
+        run: docker compose exec -T stefanini_php php artisan test
 
       - name: Tear down
         if: always()
-        run: docker-compose -f docker-compose.yml down
+        run: docker compose -f docker-compose.yml down
