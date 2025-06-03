@@ -3,6 +3,9 @@ FROM php:8.4-fpm
 WORKDIR /var/www/html
 COPY . /var/www/html
 
+ENV SKIP_COMPOSER=1
+ENV WEBROOT=/var/www/html/public
+
 RUN apt update && \
     apt install -y \
     libzip-dev \
@@ -43,5 +46,6 @@ COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
 COPY ./docker/nginx/default.conf /etc/nginx/conf.d/default.conf
 
 RUN chmod +x /usr/local/bin/docker-entrypoint.sh
+RUN sed -i 's/^;daemonize = yes/daemonize = no/' /usr/local/etc/php-fpm.conf
 
 ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]
