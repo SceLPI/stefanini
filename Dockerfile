@@ -48,4 +48,7 @@ COPY ./docker/nginx/default.conf /etc/nginx/conf.d/default.conf
 RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 RUN sed -i 's/^;daemonize = yes/daemonize = no/' /usr/local/etc/php-fpm.conf
 
+RUN rm -f /etc/nginx/sites-enabled/default
+RUN nginx -t
+
 ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]
