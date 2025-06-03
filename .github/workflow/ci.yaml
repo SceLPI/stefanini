@@ -46,7 +46,7 @@ jobs:
         run: docker-compose exec -T stefanini_php php artisan migrate --force || true
 
       - name: Run Tests
-        run: docker-compose exec -T stefanini_php ./vendor/bin/phpunit
+        run: docker-compose exec -T stefanini_php php artisan test
 
       - name: Tear down
         if: always()
