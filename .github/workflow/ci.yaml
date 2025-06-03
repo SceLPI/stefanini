@@ -1,0 +1,53 @@
+name: Run PHP Tests with Docker Compose
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    env:
+      APP_URL: http://stefanini_nginx
+      APP_KEY: base64:Ra4cycd03IUAGJnBocuJ6qvimM4ACkvWO+bH9VPb83Q=
+      DB_CONNECTION: mysql
+      DB_HOST: stefanini_mysql
+      DB_PORT: 3306
+      DB_DATABASE: stefanini
+      DB_USERNAME: stefanini
+      DB_PASSWORD: stefanini
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Docker Compose
+        run: docker-compose -f docker-compose.yml up -d --build
+
+      - name: Wait for PHP container
+        run: |
+          echo "Aguardando o container stefanini_php estar pronto..."
+          for i in {1..40}; do
+            docker-compose exec -T stefanini_php php -v && break
+            echo "stefanini_php ainda não está pronto, aguardando 5s..."
+            sleep 5
+          done
+
+      - name: Composer Install
+        run: docker-compose exec -T stefanini_php composer install --no-interaction
+
+      - name: Copy .env file
+        run: docker-compose exec -T stefanini_php cp .env.example .env
+
+      - name: Run Migrations
+        run: docker-compose exec -T stefanini_php php artisan migrate --force || true
+
+      - name: Run Tests
+        run: docker-compose exec -T stefanini_php ./vendor/bin/phpunit
+
+      - name: Tear down
+        if: always()
+        run: docker-compose -f docker-compose.yml down
