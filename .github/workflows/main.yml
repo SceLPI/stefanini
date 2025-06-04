@@ -30,6 +30,9 @@ jobs:
       - name: Set up Docker Compose
         run: docker compose -f docker-compose.yml up -d --build
 
+      - name: Dekete vendor folder to avoid conflicts
+        run: docker compose exec -T app rm -f vendor
+
       - name: Composer Install
         run: docker compose exec -T app bash -c "COMPOSER_ALLOW_SUPERUSER=1 composer install --no-interaction"
 
