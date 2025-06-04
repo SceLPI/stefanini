@@ -44,7 +44,6 @@ jobs:
           docker compose exec -T app bash -c "
             export COMPOSER_ALLOW_SUPERUSER=1
             && composer install --no-interaction --prefer-dist --no-scripts --no-plugins
-            && chown -R www-data:www-data /var/www/html
           "
 
       - name: Run Migrations
