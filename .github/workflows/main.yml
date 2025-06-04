@@ -40,7 +40,7 @@ jobs:
         run: docker compose exec -T app composer clear-cache
 
       - name: Composer Install (container)
-        run: docker compose exec -T app bash -c "COMPOSER_ALLOW_SUPERUSER=1 composer install --no-interaction --prefer-dist --no-scripts --no-plugins"
+        run: docker compose exec -T app bash -c "env COMPOSER_ALLOW_SUPERUSER=1 composer install --no-interaction --prefer-dist --no-scripts --no-plugins"
 
       - name: Run Migrations
         run: docker compose exec -T app php artisan migrate --force || true
