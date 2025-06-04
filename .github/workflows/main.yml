@@ -20,6 +20,8 @@ jobs:
       DB_DATABASE: stefanini
       DB_USERNAME: stefanini
       DB_PASSWORD: stefanini
+      OPENWEATHERMAP_API_KEY: ${{ secrets.OPENWEATHERMAP_API_KEY }}
+      SENTRY_LARAVEL_DSN: ${{ secrets.SENTRY_LARAVEL_DSN }}
 
     steps:
       - name: Checkout code
