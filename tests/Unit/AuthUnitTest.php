@@ -19,6 +19,22 @@ class AuthUnitTest extends TestCase
         parent::__construct($name);
         $this->service = new AuthService(userRepository: new UserRepository);
     }
+
+    public function test_debug_envs()
+    {
+        dump([
+            'DB_CONNECTION' => env('DB_CONNECTION'),
+            'DB_HOST' => env('DB_HOST'),
+            'DB_DATABASE' => env('DB_DATABASE'),
+            'DB_USERNAME' => env('DB_USERNAME'),
+            'DB_PASSWORD' => env('DB_PASSWORD'),
+            'APP_URL' => env('http://stefanini_nginx'),
+            'OPENWEATHERMAP_API_KEY' => env('OPENWEATHERMAP_API_KEY'),
+            'SENTRY_LARAVEL_DSN' => env('SENTRY_LARAVEL_DSN'),
+        ]);
+
+        $this->assertTrue(true);
+    }
     public function test_user_login()
     {
         $user = User::factory()->create([
