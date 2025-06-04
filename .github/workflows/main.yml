@@ -41,9 +41,9 @@ jobs:
 
       - name: Composer Install (inside container)
         run: |
-          docker compose exec -T app bash -c "
-            export COMPOSER_ALLOW_SUPERUSER=1
-            && composer install --no-interaction --prefer-dist --no-scripts --no-plugins
+          docker compose exec -T app bash -c " \
+            export COMPOSER_ALLOW_SUPERUSER=1 && \
+            composer install --no-interaction --prefer-dist --no-scripts --no-plugins \
           "
 
       - name: Run Migrations
