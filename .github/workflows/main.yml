@@ -32,9 +32,12 @@ jobs:
 
       - name: Dekete vendor folder to avoid conflicts
         run: docker compose exec -T app rm -f vendor
-
-      - name: Composer Install
-        run: docker compose exec -T app bash -c "COMPOSER_ALLOW_SUPERUSER=1 composer install --no-interaction"
+      
+      - name: Clear Composer Cache
+        run: docker compose exec -T app composer clear-cache
+        
+      - name: Composer Install (inside container)
+        run: docker compose exec -T app bash -c "COMPOSER_ALLOW_SUPERUSER=1 composer install --no-interaction --no-scripts --no-plugins"
 
       - name: Copy .env file
         run: docker compose exec -T app cp .env.example .env
