@@ -30,14 +30,17 @@ jobs:
       - name: Clean vendor
         run: rm -rf vendor/
 
-      - name: Composer Install (host)
-        run: composer install --no-interaction --prefer-dist --no-scripts --no-plugins
-
       - name: Set up Docker Compose
         run: docker compose -f docker-compose.yml up -d --build
 
       - name: Copy .env file
         run: docker compose exec -T app cp .env.example .env
+
+      - name: Clear Composer Cache
+        run: docker compose exec -T app composer clear-cache
+
+      - name: Composer Install (container)
+        run: docker compose exec -T app bash -c "COMPOSER_ALLOW_SUPERUSER=1 composer install --no-interaction --prefer-dist --no-scripts --no-plugins"
 
       - name: Run Migrations
         run: docker compose exec -T app php artisan migrate --force || true
