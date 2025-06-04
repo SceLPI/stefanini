@@ -40,7 +40,7 @@ jobs:
         run: docker compose exec -T app php artisan migrate --force || true
 
       - name: Run Tests
-        run: docker compose exec -T app ./vendor/bin/phpunit
+        run: docker compose exec -T app php artisan test --coverage
 
       - name: Tear down
         if: always()
