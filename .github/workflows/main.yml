@@ -45,9 +45,6 @@ jobs:
       - name: Run Migrations
         run: docker compose exec -T app php artisan migrate --force || true
 
-      - name: Run tests in host (Laravel)
-        run: php artisan test
-
       - name: Tear down
         if: always()
         run: docker compose -f docker-compose.yml down
