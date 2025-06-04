@@ -4,6 +4,8 @@ services:
             context: .
             dockerfile: Dockerfile
         container_name: stefanini_php
+        environment:
+            COMPOSER_ALLOW_SUPERUSER: 1
         ports:
             - "8080:80"
         volumes:
