@@ -45,36 +45,8 @@ jobs:
       - name: Run Migrations
         run: docker compose exec -T app php artisan migrate --force || true
 
-
-      - name: Injetar APP_URL via secret
-        run: docker compose exec -T app bash -c "echo APP_URL=http://stefanini_nginx >> .env"
-
-      - name: Injetar APP_KEY via secret
-        run: docker compose exec -T app bash -c "echo APP_KEY=${{ secrets.APP_KEY }} >> .env"
-
-      - name: Injetar DB_CONNECTION via secret
-        run: docker compose exec -T app bash -c "echo DB_CONNECTION=mysql >> .env"
-
-      - name: Injetar DB_HOST via secret
-        run: docker compose exec -T app bash -c "echo DB_HOST=stefanini_mysql >> .env"
-
-      - name: Injetar DB_PORT via secret
-        run: docker compose exec -T app bash -c "echo DB_PORT=3306 >> .env"
-
-      - name: Injetar DB_DATABASE via secret
-        run: docker compose exec -T app bash -c "echo DB_DATABASE=stefanini >> .env"
-
-      - name: Injetar DB_USERNAME via secret
-        run: docker compose exec -T app bash -c "echo DB_USERNAME=stefanini >> .env"
-
-      - name: Injetar DB_PASSWORD via secret
-        run: docker compose exec -T app bash -c "echo DB_PASSWORD=stefanini >> .env"
-
-      - name: Injetar SENTRY_LARAVEL_DSN via secret
-        run: docker compose exec -T app bash -c "echo SENTRY_LARAVEL_DSN=${{ secrets.SENTRY_LARAVEL_DSN }} >> .env"
-
-      - name: Injetar OPENWEATHERMAP_API_KEY via secret
-        run: docker compose exec -T app bash -c "echo OPENWEATHERMAP_API_KEY=${{ secrets.OPENWEATHERMAP_API_KEY }} >> .env"
+      - name: Run tests in host (Laravel)
+        run: php artisan test
 
       - name: Tear down
         if: always()
