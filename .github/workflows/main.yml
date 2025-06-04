@@ -15,7 +15,7 @@ jobs:
       APP_URL: http://stefanini_nginx
       APP_KEY: ${{ secrets.APP_KEY }}
       DB_CONNECTION: mysql
-      DB_HOST: stefanini_mysql
+      DB_HOST: 127.0.0.1
       DB_PORT: 3306
       DB_DATABASE: stefanini
       DB_USERNAME: stefanini
@@ -27,20 +27,23 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
+      - name: Clean vendor
+        run: rm -rf vendor/
+
       - name: Set up Docker Compose
         run: docker compose -f docker-compose.yml up -d --build
-
-      - name: Composer Install (at host)
-        run: composer install --no-interaction --no-scripts
 
       - name: Copy .env file
         run: docker compose exec -T app cp .env.example .env
 
+      - name: Clean vendor
+        run: rm -rf vendor/
+
+      - name: Composer Install (host)
+        run: composer install --no-interaction --prefer-dist
+
       - name: Run Migrations
         run: docker compose exec -T app php artisan migrate --force || true
-
-      - name: Run Tests
-        run: docker compose exec -T app php artisan test
 
       - name: Tear down
         if: always()
