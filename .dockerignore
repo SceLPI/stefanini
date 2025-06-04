@@ -1,6 +1,10 @@
+vendor/
 node_modules/
 .env
 .env.*
 .idea/
+.vscode/
 .DS_Store
 *.log
+storage/*.key
+coverage/

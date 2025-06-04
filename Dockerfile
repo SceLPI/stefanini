@@ -1,7 +1,6 @@
 FROM php:8.4-fpm
 
 WORKDIR /var/www/html
-COPY . /var/www/html
 
 ENV SKIP_COMPOSER=1
 ENV WEBROOT=/var/www/html/public
@@ -40,6 +39,8 @@ RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" &&
     mv composer.phar /usr/local/bin/composer
 
 RUN chown -R www-data:www-data /var/www/html
+
+COPY . .
 
 COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
 

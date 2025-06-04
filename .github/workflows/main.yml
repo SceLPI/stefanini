@@ -27,6 +27,12 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
+      - name: Clean vendor
+        run: rm -rf vendor/
+
+      - name: Composer Install (host)
+        run: composer install --no-interaction --prefer-dist --no-scripts --no-plugins
+
       - name: Set up Docker Compose
         run: docker compose -f docker-compose.yml up -d --build
 
