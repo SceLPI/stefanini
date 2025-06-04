@@ -27,11 +27,8 @@ jobs:
       - name: Set up Docker Compose
         run: docker compose -f docker-compose.yml up -d --build
 
-      - name: Debug container logs if PHP container fails
-        run: docker compose logs app
-
       - name: Composer Install
-        run: docker compose exec -T app composer install --no-interaction
+        run: docker compose exec -T app composer install --no-interaction  --no-scripts --no-plugins
 
       - name: Copy .env file
         run: docker compose exec -T app cp .env.example .env
