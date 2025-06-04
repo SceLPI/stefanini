@@ -30,11 +30,15 @@ jobs:
       - name: Wait for PHP container
         run: |
           echo "Aguardando o container stefanini_php estar pronto..."
-          for i in {1..40}; do
+          for i in {1..12}; do
             docker compose exec -T stefanini_php php -v && break
             echo "stefanini_php ainda não está pronto, aguardando 5s..."
-            sleep 5
+            sleep 20
           done
+
+      - name: Debug container logs if PHP container fails
+        if: failure()
+        run: docker compose logs stefanini_php
 
       - name: Composer Install
         run: docker compose exec -T stefanini_php composer install --no-interaction
@@ -46,7 +50,7 @@ jobs:
         run: docker compose exec -T stefanini_php php artisan migrate --force || true
 
       - name: Run Tests
-        run: docker compose exec -T stefanini_php php artisan test
+        run: docker compose exec -T stefanini_php ./vendor/bin/phpunit
 
       - name: Tear down
         if: always()
