@@ -30,9 +30,6 @@ jobs:
       - name: Set up Docker Compose
         run: docker compose -f docker-compose.yml up -d --build
 
-      - name: Composer Install (at host)
-        run: composer install --no-interaction --no-scripts
-
       - name: Copy .env file
         run: docker compose exec -T app cp .env.example .env
 
