@@ -30,12 +30,6 @@ jobs:
       - name: Set up Docker Compose
         run: docker compose -f docker-compose.yml up -d --build
 
-      - name: Dekete vendor folder to avoid conflicts
-        run: docker compose exec -T app rm -f vendor
-      
-      - name: Clean vendor folder
-        run: rm -rf vendor/
-        
       - name: Composer Install (at host)
         run: composer install --no-interaction --no-scripts
 
