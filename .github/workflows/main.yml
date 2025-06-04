@@ -28,19 +28,19 @@ jobs:
         run: docker compose -f docker-compose.yml up -d --build
 
       - name: Debug container logs if PHP container fails
-        run: docker compose logs stefanini_php
+        run: docker compose logs app
 
       - name: Composer Install
-        run: docker compose exec -T stefanini_php composer install --no-interaction
+        run: docker compose exec -T app composer install --no-interaction
 
       - name: Copy .env file
-        run: docker compose exec -T stefanini_php cp .env.example .env
+        run: docker compose exec -T app cp .env.example .env
 
       - name: Run Migrations
-        run: docker compose exec -T stefanini_php php artisan migrate --force || true
+        run: docker compose exec -T app php artisan migrate --force || true
 
       - name: Run Tests
-        run: docker compose exec -T stefanini_php ./vendor/bin/phpunit
+        run: docker compose exec -T app ./vendor/bin/phpunit
 
       - name: Tear down
         if: always()
