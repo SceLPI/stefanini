@@ -15,7 +15,7 @@ jobs:
       APP_URL: http://stefanini_nginx
       APP_KEY: ${{ secrets.APP_KEY }}
       DB_CONNECTION: mysql
-      DB_HOST: stefanini_mysql
+      DB_HOST: 127.0.0.1
       DB_PORT: 3306
       DB_DATABASE: stefanini
       DB_USERNAME: stefanini
