@@ -36,11 +36,11 @@ jobs:
       - name: Copy .env file
         run: docker compose exec -T app cp .env.example .env
 
-      - name: Clear Composer Cache
-        run: docker compose exec -T app composer clear-cache
+      - name: Clean vendor
+        run: rm -rf vendor/
 
-      - name: Composer Install (inside container)
-        run: docker compose exec -T app composer install --no-interaction --prefer-dist --no-scripts --no-plugins
+      - name: Composer Install (host)
+        run: composer install --no-interaction --prefer-dist
 
       - name: Run Migrations
         run: docker compose exec -T app php artisan migrate --force || true
