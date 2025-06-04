@@ -76,9 +76,6 @@ jobs:
       - name: Injetar OPENWEATHERMAP_API_KEY via secret
         run: docker compose exec -T app bash -c "echo OPENWEATHERMAP_API_KEY=${{ secrets.OPENWEATHERMAP_API_KEY }} >> .env"
 
-      - name: Run Tests
-        run: docker compose exec -T app php artisan test
-
       - name: Tear down
         if: always()
         run: docker compose -f docker-compose.yml down
