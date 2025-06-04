@@ -11,6 +11,7 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
+      COMPOSER_ALLOW_SUPERUSER: 1
       APP_URL: http://stefanini_nginx
       APP_KEY: ${{ secrets.APP_KEY }}
       DB_CONNECTION: mysql
